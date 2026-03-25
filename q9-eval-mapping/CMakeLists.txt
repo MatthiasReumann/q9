@@ -18,4 +18,10 @@ include_directories(${PROJECT_SOURCE_DIR}/mlir/include)
 include_directories(${PROJECT_BINARY_DIR}/mlir/include)
 
 add_executable(q9-eval-mapping q9-eval-mapping.cpp)
-target_link_libraries(q9-eval-mapping PRIVATE q9 mqt-core-ir MLIRQCOTransforms)
+target_link_libraries(q9-eval-mapping PRIVATE q9 MQT::CoreQASM
+          MQT::CoreIR MLIRQCTranslation MLIRParser
+          MLIRQCProgramBuilder
+          MLIRQCOUtils
+          MLIRQCToQCO
+          MLIRQCOToQC
+          MLIRQCOTransforms)
