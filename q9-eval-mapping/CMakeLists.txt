@@ -6,9 +6,14 @@ include(FetchContent)
 FetchContent_Declare(
   mqt-core
   GIT_REPOSITORY https://github.com/munich-quantum-toolkit/core.git
-  GIT_TAG main)
-
+  GIT_TAG enh/alternative-commit-trial)
 FetchContent_MakeAvailable(mqt-core)
+
+FetchContent_Declare(
+  mqt-qmap
+  GIT_REPOSITORY https://github.com/munich-quantum-toolkit/qmap.git
+  GIT_TAG main)
+FetchContent_MakeAvailable(mqt-qmap)
 
 find_package(MLIR REQUIRED CONFIG)
 
@@ -17,11 +22,16 @@ include_directories(${MLIR_INCLUDE_DIRS})
 include_directories(${PROJECT_SOURCE_DIR}/mlir/include)
 include_directories(${PROJECT_BINARY_DIR}/mlir/include)
 
-add_executable(q9-eval-mapping q9-eval-mapping.cpp)
-target_link_libraries(q9-eval-mapping PRIVATE q9 MQT::CoreQASM
-          MQT::CoreIR MLIRQCTranslation MLIRParser
-          MLIRQCProgramBuilder
-          MLIRQCOUtils
-          MLIRQCToQCO
-          MLIRQCOToQC
-          MLIRQCOTransforms)
+file(GLOB_RECURSE EVAL_SOURCES *.cpp)
+add_executable(q9-eval-mapping ${EVAL_SOURCES})
+target_link_libraries(q9-eval-mapping 
+PRIVATE 
+  q9 
+  MQT::CoreQASM
+  MQT::CoreIR
+  MLIRQCTranslation
+  MLIRParser
+  MLIRQCOUtils
+  MLIRQCToQCO
+  MLIRQCOTransforms
+  MQT::QMapSCHeuristic)
