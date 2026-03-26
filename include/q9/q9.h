@@ -17,6 +17,7 @@
 namespace q9 {
 class Statistics {
 public:
+  std::size_t get(const std::string &name) { return stats_[name]; }
   void add(const std::string &name, const std::size_t value) {
     stats_.emplace(name, value);
   }
@@ -89,7 +90,7 @@ public:
 class Task {
 public:
   Task(const std::string &name) : name_(name) {}
-  
+
   virtual Statistics run(ProgramRepresentation &repr) = 0;
   virtual ~Task() = default;
 
